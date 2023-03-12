@@ -19,13 +19,29 @@ fn main() {
 
     let mut driver = LedcDriver::new(
         peripherals.ledc.channel0,
-        timer_driver,
+        &timer_driver,
         peripherals.pins.gpio2,
+    )
+    .unwrap();
+
+    let mut driver2 = LedcDriver::new(
+        peripherals.ledc.channel1,
+        &timer_driver,
+        peripherals.pins.gpio3,
+    )
+    .unwrap();
+
+    let mut driver3 = LedcDriver::new(
+        peripherals.ledc.channel2,
+        &timer_driver,
+        peripherals.pins.gpio4,
     )
     .unwrap();
 
     for numerator in (0..255).cycle() {
         driver.set_duty(numerator).unwrap();
+        driver2.set_duty(numerator).unwrap();
+        driver3.set_duty(numerator).unwrap();
         std::thread::sleep(std::time::Duration::from_millis(10));
     }
 }
